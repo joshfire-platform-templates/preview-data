@@ -3,6 +3,7 @@
 	"version":"0.0.1",
 	"description":"Preview theme",
 	"joshfire":{
+		"private":true,
 		"datasources":{
 			"main":{
 				"title":"Data source to preview"
