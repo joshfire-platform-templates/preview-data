@@ -1,0 +1,12 @@
+{
+	"name":"preview-data",
+	"version":"0.0.1",
+	"description":"Preview theme",
+	"joshfire":{
+		"datasources":{
+			"main":{
+				"title":"Data source to preview"
+			}
+		}
+	}
+}
