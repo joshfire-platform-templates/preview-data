@@ -18,8 +18,20 @@
 			str = '<ul>';
 			for (var i=0;i<data.entries.length;i++) {
 				var element = data.entries[i];
-				str += '<li><a href="'+element.video+'"><h4>'+element.title
-				+'</h4><p><img src="'+element.image+'"></p></a></li>';
+				str += '<li>';
+
+				if(element.title) {
+					str += '<h4>' + element.title + '</h4>';
+				}
+				if(element.image) {
+					str += '<p><img src="' + element.image + '" /></p>';
+				}
+				
+				// in some case, display the 'text' field.
+				if(element.source == 'twitter') {
+					str += '<p>' + element.text + '</p>';
+				}
+				str += '</li>';
 			}	
         	str += '</ul>';
 		}
