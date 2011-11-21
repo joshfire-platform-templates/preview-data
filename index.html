@@ -10,7 +10,7 @@
 
 <script>
 
-	Joshfire.getDataSource("main").find({},function(err, data) {
+	Joshfire.config.datasources["main"].find({},function(err, data) {
 		var str;
 		if (!data.entries || !data.entries.length) {
 			str = "No entries";
