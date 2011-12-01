@@ -1,6 +1,6 @@
 <html>
 <head>
-	<script data-joshfire-bootstrap src="http://localhost:40021/bootstrap/4ea19339444863e0cc000022/auto/auto/"></script>
+	<script data-joshfire-bootstrap src="http://localhost:40021/bootstrap/4ed4b24582d630000000019a/auto/auto/"></script>
 	
 	<link rel="stylesheet" href="preview.css">
 </head>
@@ -10,34 +10,71 @@
 
 <script>
 
-	Joshfire.factory.config.datasources["main"].find({},function(err, data) {
-		var str;
-		if (!data.entries || !data.entries.length) {
-			str = "No entries";
-		} else {
-			str = '<ul>';
-			for (var i=0;i<data.entries.length;i++) {
-				var element = data.entries[i];
-				str += '<li>';
+	var skip=0;
+	var limit=20;
+	var maxid=false;
 
-				if(element.title) {
-					str += '<h4>' + element.title + '</h4>';
-				}
-				if(element.image) {
-					str += '<p><img src="' + element.image + '" /></p>';
-				}
-				
-				// in some case, display the 'text' field.
-				if(element.source == 'twitter') {
-					str += '<p>' + element.text + '</p>';
-				}
-				str += '</li>';
-			}	
-        	str += '</ul>';
-		}
-		document.getElementById("preview").innerHTML = str;
-	});
+	var formatData = function(data) {
+		
+		if (!data.entries || !data.entries.length) return "";
+		
+		var str="";
+		
+		for (var i=0;i<data.entries.length;i++) {
+			var element = data.entries[i];
+			str += '<li>';
     
+			if(element.title) {
+				str += '<h4>' + element.title + '</h4>';
+			}
+			if(element.image) {
+				str += '<p><img src="' + element.image + '" /></p>';
+			}
+			
+			// in some case, display the 'text' field.
+			if(element.source == 'twitter') {
+				str += '<p>' + element.text + '</p>';
+			}
+			str += '</li>';
+			
+			maxid = element.identifier;
+		}	
+		skip+=data.entries.length;
+		
+		return str;
+	};
+
+	var loadMore = function(first) {
+		
+		if (!first) {
+			document.getElementById("preview-loadmore").innerHTML="Loading...";
+		}
+		
+		var ds = Joshfire.factory.getDataSource("main");
+		if (ds.children) ds = ds.children[0];
+		var options = {skip:skip,limit:limit};
+		if (maxid) options.maxid = maxid;
+		ds.find(options,function(err, data) {
+			console.log("data",data);
+			if (first) {
+				if (!data.entries || !data.entries.length) {
+					str = 'No entries';
+				} else {
+					str = '<ul id="preview-ul"></ul><a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
+				}
+				document.getElementById("preview").innerHTML = str;
+			}
+
+			if (document.getElementById("preview-loadmore")) {
+				document.getElementById("preview-loadmore").innerHTML = "Load more";
+				document.getElementById("preview-ul").innerHTML+=formatData(data);
+			}
+			
+		});
+	};
+
+	loadMore(true);
+	
 </script>
 </body>
 </html>
