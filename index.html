@@ -55,7 +55,6 @@
 		var options = {skip:skip,limit:limit};
 		if (maxid) options.maxid = maxid;
 		ds.find(options,function(err, data) {
-			console.log("data",data);
 			if (first) {
 				if (!data.entries || !data.entries.length) {
 					str = 'No entries';
