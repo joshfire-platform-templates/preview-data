@@ -30,7 +30,10 @@
 				str += '<h4>' + entry.name + '</h4>';
 			}
 
-			if (entry.thumbnailUrl) {
+			if (entry.image && entry.image.contentURL) {
+				str += '<p><img src="' + entry.image.contentURL + '" alt="" /></p>';
+			}
+			else if (entry.thumbnailUrl) {
 				str += '<p><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
 			}
 			else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
