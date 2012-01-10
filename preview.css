@@ -114,4 +114,6 @@
 			margin-bottom:10px;
 		}
 		
-		
+		#preview img {
+			max-width: 120px;
+		}
