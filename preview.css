@@ -92,6 +92,7 @@
 		#preview ul li p {
 		float:left;
 		border: 5px solid #d7d7d7;
+		max-width: 120px;
 		}
 		
 		#preview ul a{
