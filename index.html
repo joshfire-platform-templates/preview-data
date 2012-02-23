@@ -7,7 +7,7 @@
 	<script src="es5-shim.js"></script>
 	<script src="json2.js"></script>
 	<![endif]-->
-	<script data-joshfire-bootstrap src="http://localhost:40021/bootstrap/4ed4b24582d630000000019a/auto/auto/"></script>	
+	<script data-joshfire-bootstrap></script>
 	<link rel="stylesheet" href="preview.css">
 </head>
 <body>
@@ -46,6 +46,9 @@
 			else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
 				str += '<p><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
 			}
+			else if (entry.contentURL) {
+				str += '<p><img src="' + entry.contentURL + '" alt="" /></p>';
+			}
 
 			/*
 			if (entry.description) {
@@ -75,25 +78,38 @@
 		if (maxid) options.maxid = maxid;
 		ds.find(options,function (err, data) {
 			if (err) {
-				str = "An error occurred or the service may be temporarily down.";
+				// Stick to a 'no entries found' message as long as we don't have
+				// a way to distinguish between internal errors and third-party errors.
+				//str = 'Sorry, it seems an error occurred.'
+				//	+ '<br/>The service provider may be temporarily down or parameters may not be correct. Ensure parameters are correct and try again.';
+				str = 'No entries found. Ensure parameters are correct.';
 			}
 			else if (first) {
 				if (!data || !data.entries || !data.entries.length) {
-					str = 'No entries';
+					str = 'No entries found.';
 				}
 				else {
-					str = '<ul id="preview-ul"></ul><a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
+					str = '<ul id="preview-ul"></ul>';
+					//str += '<a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
 				}
+			}
+			else {
+				// List is already there
+				str = null;
+			}
+			if (str) {
 				document.getElementById("preview").innerHTML = str;
 			}
 
+			/*
 			if (document.getElementById("preview-loadmore")) {
 				document.getElementById("preview-loadmore").innerHTML = "Load more";
-				if (data && data.entries && data.entries.length) {
-					document.getElementById("preview-ul").innerHTML += formatData(data);	
-				}
 			}
-			
+			*/
+
+			if (document.getElementById("preview-ul")) {
+				document.getElementById("preview-ul").innerHTML += formatData(data);
+			}
 		});
 	};
 
