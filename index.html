@@ -1,63 +1,91 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<!--[if lt IE 9]>
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<script src="es5-shim.js"></script>
-	<script src="json2.js"></script>
-	<![endif]-->
-	<script data-joshfire-bootstrap></script>
-	<link rel="stylesheet" href="preview.css">
-</head>
+	<head>
+		<!--[if lt IE 9]>
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="es5-shim.js"></script>
+		<script src="json2.js"></script>
+		<![endif]-->
+		<script data-joshfire-bootstrap></script>
+		<link rel="stylesheet" href="preview.css">
+	</head>
 <body>
 
 <div id="preview">Loading...</div>
 
-<script>
-
+<script type="text/javascript">
 	var skip = 0;
 	var limit = 20;
 	var maxid = false;
 
+	var formatEntry = function (entry) {
+		var str = '<li>';
+		var date = null;
+		var author = null;
+
+		// The title when defined
+		if (entry.name) {
+			str += '<h4>' + entry.name + '</h4>';
+		}
+
+		// Main image when defined
+		if (entry.image && entry.image.contentURL) {
+			str += '<p class="image"><img src="' + entry.image.contentURL + '" alt="" /></p>';
+		}
+		else if (entry.thumbnailUrl) {
+			str += '<p class="image"><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
+		}
+		else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
+			str += '<p class="image"><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
+		}
+		else if ((entry['@type'] === 'ImageObject') && entry.contentURL) {
+			str += '<p class="image"><img src="' + entry.contentURL + '" alt="" /></p>';
+		}
+
+		// Main author when defined
+		author = entry.author ? entry.author[0] : entry.byArtist;
+		if (author && author.name) {
+			str += '<p class="author">By ' + author.name + '</p>';
+		}
+
+		// Main date when defined
+		date = entry.datePublished ||
+      entry.dateModified ||
+      entry.dateCreated ||
+      entry.uploadDate ||
+      entry.startDate ||
+      entry.endDate ||
+      entry.datePosted ||
+      entry.foundingDate ||
+      entry.birthDate ||
+      entry.deathDate;
+		if (/^[0-9]{4}-[0-9]{2}-[0-9]{2}T/.test(date)) {
+			str += '<p class="date">(' + date.substring(0, 10) + ')</p>';
+		}
+
+		/*
+		if (entry.description) {
+			str += '<p>' + entry.description + '</p>';
+		}
+		*/
+
+		str += '</li>';
+		return str;
+	}
+
 	var formatData = function (data) {
-		var str = "";
+		var str = '';
 		var i = 0;
 		var entry = null;
 
 		if (!data || !data.entries || !data.entries.length) {
-			return "";
+			return '';
 		}
 		
 		for (i = 0; i < data.entries.length; i++) {
 			entry = data.entries[i];
-			str += '<li>';
-    
-			if (entry.name) {
-				str += '<h4>' + entry.name + '</h4>';
-			}
-
-			if (entry.image && entry.image.contentURL) {
-				str += '<p><img src="' + entry.image.contentURL + '" alt="" /></p>';
-			}
-			else if (entry.thumbnailUrl) {
-				str += '<p><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
-			}
-			else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
-				str += '<p><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
-			}
-			else if (entry.contentURL) {
-				str += '<p><img src="' + entry.contentURL + '" alt="" /></p>';
-			}
-
-			/*
-			if (entry.description) {
-				str += '<p>' + entry.description + '</p>';
-			}
-			*/
-
-			str += '</li>';
-			
+			str += formatEntry(entry);
 			maxid = entry.url;
 		}
 		skip += data.entries.length;

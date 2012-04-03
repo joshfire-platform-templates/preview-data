@@ -81,18 +81,34 @@
     }
   
 		
-		#preview ul li h4 {
-    float: right;
-    width: 190px;
-    vertical-align: text-bottom;
-    padding: 4px 10px 0 10px;
-    line-height: 17px;
+		#preview h4,
+		#preview .author,
+		#preview .date {
+     float: right;
+     width: 190px;
+     vertical-align: text-bottom;
+     padding: 4px 10px 0 10px;
+		}
+
+		#preview h4 {
+			font-weight: 600;
+			line-height: 17px;
+			padding-bottom: 4px;
+		}
+
+		#preview .author {
+			font-style: italic;
+			font-size: small;
+		}
+
+		#preview .date {
+			font-size: small;
 		}
 		
-		#preview ul li p {
-		float:left;
-		border: 5px solid #d7d7d7;
-		max-width: 120px;
+		#preview .image {
+		 float: left;
+		 border: 5px solid #d7d7d7;
+		 max-width: 120px;
 		}
 		
 		#preview ul a{
