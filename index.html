@@ -118,7 +118,7 @@
 				}
 				else {
 					str = '<ul id="preview-ul"></ul>';
-					//str += '<a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
+					str += '<a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
 				}
 			}
 			else {
@@ -129,11 +129,11 @@
 				document.getElementById("preview").innerHTML = str;
 			}
 
-			/*
+			
 			if (document.getElementById("preview-loadmore")) {
 				document.getElementById("preview-loadmore").innerHTML = "Load more";
 			}
-			*/
+			
 
 			if (document.getElementById("preview-ul")) {
 				document.getElementById("preview-ul").innerHTML += formatData(data);
