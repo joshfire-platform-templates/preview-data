@@ -126,9 +126,10 @@
 			text-align:center;
 			line-height:40px;
 			display:block;
-			font-weight:bold;
-			font-size:1.2em;
 			margin-bottom:10px;
+
+			text-decoration: none;
+			color: #08C;
 		}
 		
 		#preview img {
