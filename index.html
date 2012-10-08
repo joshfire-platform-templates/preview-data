@@ -7,12 +7,13 @@
 		<script src="es5-shim.js"></script>
 		<script src="json2.js"></script>
 		<![endif]-->
-		<script data-joshfire-bootstrap></script>
+		<!--<script data-joshfire-bootstrap></script>-->
+				<script data-joshfire-bootstraped="" src="http://localhost:40021/bootstrap/506d8004123f15106d00012d/506d6bb03ebe8f8c31000260/*/?datasources=%7B%22main%22%3A%7B%22query%22%3A%7B%22filter%22%3A%7B%22search%22%3A%22photo%22%7D%2C%22options%22%3A%7B%7D%7D%2C%22name%22%3A%22Twitter%22%2C%22db%22%3A%22twitter%22%2C%22col%22%3A%22tweets%22%2C%22runtime%22%3A%22browser%22%7D%7D"></script>
 		<link rel="stylesheet" href="preview.css">
 	</head>
 <body>
 
-<div id="preview">Loading...</div>
+<div id="preview" class="preview-data">Loading...</div>
 
 <script type="text/javascript">
 	var skip = 0;
@@ -23,11 +24,6 @@
 		var str = '<li>';
 		var date = null;
 		var author = null;
-
-		// The title when defined
-		if (entry.name) {
-			str += '<h4>' + entry.name + '</h4>';
-		}
 
 		// Main image when defined
 		if (entry.image && entry.image.contentURL) {
@@ -42,6 +38,12 @@
 		else if ((entry['@type'] === 'ImageObject') && entry.contentURL) {
 			str += '<p class="image"><img src="' + entry.contentURL + '" alt="" /></p>';
 		}
+
+		// The title when defined
+		if (entry.name) {
+			str += '<h4>' + entry.name + '</h4>';
+		}
+
 
 		// Main author when defined
 		author = entry.author ? entry.author[0] : entry.byArtist;
