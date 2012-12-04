@@ -94,7 +94,7 @@
     return str;
   };
 
-  var maxItems = Joshfire.factory.config.template.options.maxItems;
+  var maxItems = Joshfire.factory.config.template.options.maxItems || -1;
   var loadMore = function (first) {
     var str = '';
 
