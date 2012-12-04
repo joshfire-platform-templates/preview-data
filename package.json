@@ -1,13 +1,21 @@
 {
-	"name":"preview-data",
-	"version":"0.0.1",
-	"description":"Preview theme",
-	"joshfire":{
-		"private":true,
-		"datasources":{
-			"main":{
-				"title":"Data source to preview"
-			}
-		}
-	}
+  "name": "preview-data",
+  "version": "0.1.0",
+  "description": "Preview theme",
+  "joshfire": {
+    "private": true,
+    "datasources": {
+      "main": {
+        "title": "Data source to preview"
+      }
+    },
+    "options": {
+      "schema": {
+        "maxItems": {
+          "type": "integer",
+          "default": -1
+        }
+      }
+    }
+  }
 }

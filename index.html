@@ -1,58 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!--[if lt IE 9]>
-		<meta http-equiv="X-UA-Compatible" content="IE=8" />
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="es5-shim.js"></script>
-		<script src="json2.js"></script>
-		<![endif]-->
-		<script data-joshfire-bootstrap></script>
+  <head>
+    <!--[if lt IE 9]>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="es5-shim.js"></script>
+    <script src="json2.js"></script>
+    <![endif]-->
+    <script data-joshfire-bootstrap></script>
 
-		<link rel="stylesheet" href="preview.css">
-	</head>
+    <link rel="stylesheet" href="preview.css">
+  </head>
 <body>
 
 <div id="preview" class="preview-data">Loading...</div>
 
 <script type="text/javascript">
-	var skip = 0;
-	var limit = 20;
-	var maxid = false;
+  var skip = 0;
+  var limit = 20;
+  var maxid = false;
 
-	var formatEntry = function (entry) {
-		var str = '<li>';
-		var date = null;
-		var author = null;
+  var formatEntry = function (entry) {
+    var str = '<li>';
+    var date = null;
+    var author = null;
 
-		// Main image when defined
-		if (entry.image && entry.image.contentURL) {
-			str += '<p class="image"><img src="' + entry.image.contentURL + '" alt="" /></p>';
-		}
-		else if (entry.thumbnailUrl) {
-			str += '<p class="image"><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
-		}
-		else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
-			str += '<p class="image"><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
-		}
-		else if ((entry['@type'] === 'ImageObject') && entry.contentURL) {
-			str += '<p class="image"><img src="' + entry.contentURL + '" alt="" /></p>';
-		}
+    // Main image when defined
+    if (entry.image && entry.image.contentURL) {
+      str += '<p class="image"><img src="' + entry.image.contentURL + '" alt="" /></p>';
+    }
+    else if (entry.thumbnailUrl) {
+      str += '<p class="image"><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
+    }
+    else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
+      str += '<p class="image"><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
+    }
+    else if ((entry['@type'] === 'ImageObject') && entry.contentURL) {
+      str += '<p class="image"><img src="' + entry.contentURL + '" alt="" /></p>';
+    }
 
-		// The title when defined
-		if (entry.name) {
-			str += '<h4>' + entry.name + '</h4>';
-		}
+    // The title when defined
+    if (entry.name) {
+      str += '<h4>' + entry.name + '</h4>';
+    }
 
+    // Main author when defined
+    author = entry.author ? entry.author[0] : entry.byArtist;
+    if (author && author.name) {
+      str += '<p class="author">By ' + author.name + '</p>';
+    }
 
-		// Main author when defined
-		author = entry.author ? entry.author[0] : entry.byArtist;
-		if (author && author.name) {
-			str += '<p class="author">By ' + author.name + '</p>';
-		}
-
-		// Main date when defined
-		date = entry.datePublished ||
+    // Main date when defined
+    date = entry.datePublished ||
       entry.dateModified ||
       entry.dateCreated ||
       entry.uploadDate ||
@@ -62,89 +61,97 @@
       entry.foundingDate ||
       entry.birthDate ||
       entry.deathDate;
-		if (/^[0-9]{4}-[0-9]{2}-[0-9]{2}T/.test(date)) {
-			str += '<p class="date">(' + date.substring(0, 10) + ')</p>';
-		}
+    if (/^[0-9]{4}-[0-9]{2}-[0-9]{2}T/.test(date)) {
+      str += '<p class="date">(' + date.substring(0, 10) + ')</p>';
+    }
 
-		/*
-		if (entry.description) {
-			str += '<p>' + entry.description + '</p>';
-		}
-		*/
+    /*
+    if (entry.description) {
+      str += '<p>' + entry.description + '</p>';
+    }
+    */
 
-		str += '</li>';
-		return str;
-	}
+    str += '</li>';
+    return str;
+  }
 
-	var formatData = function (data) {
-		var str = '';
-		var i = 0;
-		var entry = null;
+  var formatData = function (data) {
+    var str = '';
+    var i = 0;
+    var entry = null;
 
-		if (!data || !data.entries || !data.entries.length) {
-			return '';
-		}
-		
-		for (i = 0; i < data.entries.length; i++) {
-			entry = data.entries[i];
-			str += formatEntry(entry);
-			maxid = entry.url;
-		}
-		skip += data.entries.length;
-		
-		return str;
-	};
+    if (!data || !data.entries || !data.entries.length) {
+      return '';
+    }
 
-	var loadMore = function (first) {
-		var str = "";
-		
-		if (!first) {
-			document.getElementById("preview-loadmore").innerHTML="Loading...";
-		}
-		
-		var ds = Joshfire.factory.getDataSource("main");
-		if (ds.children) ds = ds.children[0];
-		var options = {skip:skip,limit:limit};
-		if (maxid) options.maxid = maxid;
-		ds.find(options,function (err, data) {
-			if (err) {
-				// Stick to a 'no entries found' message as long as we don't have
-				// a way to distinguish between internal errors and third-party errors.
-				//str = 'Sorry, it seems an error occurred.'
-				//	+ '<br/>The service provider may be temporarily down or parameters may not be correct. Ensure parameters are correct and try again.';
-				str = 'No entries found. Ensure parameters are correct.';
-			}
-			else if (first) {
-				if (!data || !data.entries || !data.entries.length) {
-					str = 'No entries found.';
-				}
-				else {
-					str = '<ul id="preview-ul"></ul>';
-					str += '<a id="preview-loadmore" onclick="loadMore(); return false;" href="#"></a>';
-				}
-			}
-			else {
-				// List is already there
-				str = null;
-			}
-			if (str) {
-				document.getElementById("preview").innerHTML = str;
-			}
+    for (i = 0; i < data.entries.length; i++) {
+      entry = data.entries[i];
+      str += formatEntry(entry);
+      maxid = entry.url;
+    }
+    skip += data.entries.length;
 
-			
-			if (document.getElementById("preview-loadmore")) {
-				document.getElementById("preview-loadmore").innerHTML = "Load more";
-			}
-			
+    return str;
+  };
 
-			if (document.getElementById("preview-ul")) {
-				document.getElementById("preview-ul").innerHTML += formatData(data);
-			}
-		});
-	};
+  var maxItems = Joshfire.factory.config.template.options.maxItems;
+  var loadMore = function (first) {
+    var str = '';
 
-	loadMore(true);
-	
+    if (!first) {
+      document.getElementById('preview-loadmore').innerHTML= 'Loading...';
+    }
+
+    var ds = Joshfire.factory.getDataSource('main');
+    if (ds.children) ds = ds.children[0];
+    var options = {
+      skip: skip,
+      limit: limit
+    };
+    if (maxid) {
+      options.maxid = maxid;
+    }
+
+    ds.find(options, function (err, data) {
+      if (err) {
+        // Stick to a 'no entries found' message as long as we don't have
+        // a way to distinguish between internal errors and third-party errors.
+        //str = 'Sorry, it seems an error occurred.'
+        //  + '<br/>The service provider may be temporarily down or parameters may not be correct. Ensure parameters are correct and try again.';
+        str = 'No entries found. Ensure parameters are correct.';
+      }
+      else if (first) {
+        if (!data || !data.entries || !data.entries.length) {
+          str = 'No entries found.';
+        }
+        else {
+          str = '<ul id="preview-ul"></ul>';
+          if ((maxItems < 0) || (data.entries.length < maxItems)) {
+            str += '<a id="preview-loadmore" ' +
+              'onclick="loadMore(); return false;" href="#">' +
+              '</a>';
+          }
+        }
+      }
+      else {
+        // List is already there
+        str = null;
+      }
+      if (str) {
+        document.getElementById("preview").innerHTML = str;
+      }
+
+      if (document.getElementById('preview-loadmore')) {
+        document.getElementById('preview-loadmore').innerHTML = 'Load more';
+      }
+
+      if (document.getElementById("preview-ul")) {
+        document.getElementById("preview-ul").innerHTML += formatData(data);
+      }
+    });
+  };
+
+  loadMore(true);
 </script>
 </body>
 </html>
