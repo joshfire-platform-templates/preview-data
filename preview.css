@@ -54,7 +54,7 @@
 		body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin: 0;
-      background: transparent;
+      background: #F5F5F5;
       font-size: 15px;
       font-weight: 200;
       color: #3a3a3a;
@@ -72,7 +72,11 @@
     
     .preview-data {
     width:345px;
+    min-height: 64px;
     background-color: transparent;
+    background-image: url(images/loader-wizard.gif);
+    background-repeat: no-repeat;
+    background-position: center;
     }
 
     .preview-data ul li {
