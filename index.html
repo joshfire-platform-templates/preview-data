@@ -20,6 +20,23 @@
   var limit = 20;
   var maxid = false;
 
+  var getNaturalSize = function (DOMElement, cb) {
+    if (DOMElement.naturalWidth && DOMElement.naturalHeight) {
+      return cb({
+        width: DOMElement.naturalWidth,
+        height: DOMElement.naturalHeight
+      });
+    }
+    var img = new Image();
+    img.src = DOMElement.src;
+    img.onload = function () {
+      cb({
+        width: this.width,
+        height: this.height
+      });
+    }
+  }
+
   var formatEntry = function (entry) {
     var str = '<li>';
     var date = null;
@@ -147,6 +164,22 @@
 
       if (document.getElementById("preview-ul")) {
         document.getElementById("preview-ul").innerHTML += formatData(data);
+        var imgs = document.getElementsByTagName('img');
+        for (var i = 0; i< imgs.length; ++i) {
+          imgs.item(i).onload = function () {
+            var self = this;
+            getNaturalSize(this, function (size) {
+              var toAppend = '';
+              if (size.width > 40 || size.height > 40) {
+                toAppend += '<p class="warning">';
+                toAppend += 'This image is big. It could slow down you app '
+                toAppend += 'when deployed to a mobile device.';
+                toAppend += '</p>';
+                self.parentNode.parentNode.innerHTML += toAppend;
+              }
+            });
+          }
+        }
       }
     });
   };

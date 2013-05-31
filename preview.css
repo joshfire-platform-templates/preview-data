@@ -1,5 +1,5 @@
 /****** FETCHED DATA STYLE.css  ******/
-		/* http://meyerweb.com/eric/tools/css/reset/ 
+		/* http://meyerweb.com/eric/tools/css/reset/
 	   v2.0 | 20110126
 	   License: none (public domain)
 		*/
@@ -13,8 +13,8 @@
 		dl, dt, dd, ol, ul, li,
 		fieldset, form, label, legend,
 		table, caption, tbody, tfoot, thead, tr, th, td,
-		article, aside, canvas, details, embed, 
-		figure, figcaption, footer, header, hgroup, 
+		article, aside, canvas, details, embed,
+		figure, figcaption, footer, header, hgroup,
 		menu, nav, output, ruby, section, summary,
 		time, mark, audio, video {
 			margin: 0;
@@ -25,7 +25,7 @@
 			vertical-align: baseline;
 		}
 		/* HTML5 display-role reset for older browsers */
-		article, aside, details, figcaption, figure, 
+		article, aside, details, figcaption, figure,
 		footer, header, hgroup, menu, nav, section {
 			display: block;
 		}
@@ -60,7 +60,7 @@
       color: #3a3a3a;
       border: none;
 		}
-		
+
 		ul {
 			list-style-type:none;
 		}
@@ -69,30 +69,32 @@
 			padding: 0;
 		}
 
-    
+
     .preview-data {
       width:345px;
       min-height: 64px;
       background-color: transparent;
     }
-    
+
     .preview-data .loader{
       background-image: url(images/loader-wizard.gif);
       background-repeat: no-repeat;
-      background-position: center;    
+      background-position: center;
       height: 64px;
       width: auto;
       display: block;
     }
 
     .preview-data ul li {
-      margin-bottom: 10px;  
+      margin-bottom: 10px;
     }
-  
-		
+
+
 		.preview-data h4,
 		.preview-data .author,
-		.preview-data .date {
+		.preview-data .date,
+    .preview-data .warning
+    {
      float: left;
      width: 190px;
      vertical-align: text-bottom;
@@ -113,24 +115,24 @@
 		.preview-data .date {
 			font-size: small;
 		}
-		
+
 		.preview-data .image {
 		 float: left;
 		 border: 5px solid #d7d7d7;
 		 max-width: 120px;
 		}
-		
+
 		.preview-data ul a{
 		overflow: hidden;
 		}
-		
-		
+
+
 		.preview-data ul li{
 		overflow: hidden;
 			clear: both;
 		}
 
-		
+
 		.preview-data-loadmore {
 			text-align:center;
 			line-height:40px;
@@ -140,7 +142,11 @@
 			text-decoration: none;
 			color: #08C;
 		}
-		
+
 		.preview-data img {
 			max-width: 120px;
 		}
+
+    .preview-data .warning {
+      color: #faa732;
+    }
