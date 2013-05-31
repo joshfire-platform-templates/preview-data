@@ -170,7 +170,7 @@
             var self = this;
             getNaturalSize(this, function (size) {
               var toAppend = '';
-              if (size.width > 40 || size.height > 40) {
+              if (size.width > 400 || size.height > 400) {
                 toAppend += '<p class="warning">';
                 toAppend += 'This image is big. It could slow down you app '
                 toAppend += 'when deployed to a mobile device.';
