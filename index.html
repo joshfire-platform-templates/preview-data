@@ -41,20 +41,10 @@
     var str = '<li>';
     var date = null;
     var author = null;
+    // Get thumbnail with width <= 120
+    var imgSrc = Joshfire.schemaio.utils.getThumbnailUrl(entry, 120);
 
-    // Main image when defined
-    if (entry.image && entry.image.contentURL) {
-      str += '<p class="image"><img src="' + entry.image.contentURL + '" alt="" /></p>';
-    }
-    else if (entry.thumbnailUrl) {
-      str += '<p class="image"><img src="' + entry.thumbnailUrl + '" alt="" /></p>';
-    }
-    else if (entry.thumbnail && entry.thumbnail[0] && entry.thumbnail[0].contentURL) {
-      str += '<p class="image"><img src="' + entry.thumbnail[0].contentURL + '" alt="" /></p>';
-    }
-    else if ((entry['@type'] === 'ImageObject') && entry.contentURL) {
-      str += '<p class="image"><img src="' + entry.contentURL + '" alt="" /></p>';
-    }
+    str += '<p class="image"><img src="' + imgSrc + '" alt="" /></p>';
 
     // The title when defined
     if (entry.name) {
@@ -175,6 +165,7 @@
                 toAppend += 'This image is big. It could slow down you app '
                 toAppend += 'when deployed to a mobile device.';
                 toAppend += '</p>';
+
                 self.parentNode.parentNode.innerHTML += toAppend;
               }
             });
