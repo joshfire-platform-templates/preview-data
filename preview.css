@@ -91,8 +91,7 @@ li {
 
 .preview-data h4,
 .preview-data .author,
-.preview-data .date,
-.preview-data .warning
+.preview-data .date
 {
  float: left;
  width: 190px;
@@ -121,6 +120,11 @@ li {
  max-width: 120px;
 }
 
+.preview-data ul {
+  overflow: auto;
+  height: 325px;
+}
+
 .preview-data ul a{
   overflow: hidden;
 }
@@ -146,6 +150,17 @@ li {
  max-width: 120px;
 }
 
+.padding-top {
+  padding-top: 60px;
+}
+
 .preview-data .warning {
   color: #faa732;
+  width: auto;
+  float: none;
+  padding: 10px 0;
+  font-weight: bold;
+  position: fixed;
+  background-image: url(http://localhost:40021/css/images/img-bckgd-fetchedata.png);
+  top: 0;
 }

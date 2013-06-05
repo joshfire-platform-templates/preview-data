@@ -19,6 +19,7 @@
   var skip = 0;
   var limit = 20;
   var maxid = false;
+  var warningPrinted = false;
 
   var getNaturalSize = function (DOMElement, cb) {
     if (DOMElement.naturalWidth && DOMElement.naturalHeight) {
@@ -152,21 +153,26 @@
         document.getElementById('preview-loadmore').innerHTML = 'Load more';
       }
 
-      if (document.getElementById("preview-ul")) {
+      if (!warningPrinted && document.getElementById("preview-ul")) {
         document.getElementById("preview-ul").innerHTML += formatData(data);
         var imgs = document.getElementsByTagName('img');
         for (var i = 0; i< imgs.length; ++i) {
           imgs.item(i).onload = function () {
             var self = this;
             getNaturalSize(this, function (size) {
-              var toAppend = '';
-              if (size.width > 400 || size.height > 400) {
-                toAppend += '<p class="warning">';
-                toAppend += 'This image is big. It could slow down you app '
-                toAppend += 'when deployed to a mobile device.';
-                toAppend += '</p>';
+              var toPrepend = '';
+              var previewEl;
+              if (!warningPrinted && (size.width > 40 || size.height > 40)) {
+                warningPrinted = true;
+                previewEl = document.getElementById('preview');
+                toPrepend += '<p class="warning">';
+                toPrepend += 'Some images are really big for a mobile device ';
+                toPrepend += 'to handle. It might slow down your application ';
+                toPrepend += 'when running it on a mobile device.';
+                toPrepend += '</p>';
 
-                self.parentNode.parentNode.innerHTML += toAppend;
+                previewEl.innerHTML = toPrepend + previewEl.innerHTML;
+                previewEl.className += ' padding-top';
               }
             });
           }
