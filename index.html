@@ -162,13 +162,14 @@
             getNaturalSize(this, function (size) {
               var toPrepend = '';
               var previewEl;
-              if (!warningPrinted && (size.width > 40 || size.height > 40)) {
+              if (!warningPrinted && (size.width > 400 || size.height > 400)) {
                 warningPrinted = true;
                 previewEl = document.getElementById('preview');
                 toPrepend += '<p class="warning">';
-                toPrepend += 'Some images are really big for a mobile device ';
-                toPrepend += 'to handle. It might slow down your application ';
-                toPrepend += 'when running it on a mobile device.';
+                toPrepend += 'Some images are too big for mobile devices,';
+                toPrepend += ' it might have a negative impact on the performance';
+                toPrepend += ' of your app. Consider adding the "image resizing"';
+                toPrepend += ' option';
                 toPrepend += '</p>';
 
                 previewEl.innerHTML = toPrepend + previewEl.innerHTML;

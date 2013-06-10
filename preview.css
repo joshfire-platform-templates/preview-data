@@ -73,6 +73,7 @@ li {
   width:345px;
   min-height: 64px;
   background-color: transparent;
+  overflow: hidden;
 }
 
 .preview-data .loader{
@@ -123,6 +124,7 @@ li {
 .preview-data ul {
   overflow: auto;
   height: 325px;
+  width: 345px;
 }
 
 .preview-data ul a{
@@ -158,8 +160,7 @@ li {
   color: #faa732;
   width: auto;
   float: none;
-  padding: 10px 0;
-  font-weight: bold;
+  padding: 5px 0 10px;
   position: fixed;
   background-image: url(http://localhost:40021/css/images/img-bckgd-fetchedata.png);
   top: 0;
